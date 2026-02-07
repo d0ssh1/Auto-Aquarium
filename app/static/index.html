@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ocean Aquarium — Equipment Control</title>
+    <title>Океанариум — Управление оборудованием</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -57,14 +57,14 @@
                 <div class="flex items-center gap-3">
                     <span class="text-2xl">🌊</span>
                     <div>
-                        <h1 class="text-lg font-bold text-ocean-400">OCEAN AQUARIUM</h1>
-                        <p class="text-xs text-gray-500">Equipment Control System</p>
+                        <h1 class="text-lg font-bold text-ocean-400">ОКЕАНАРИУМ</h1>
+                        <p class="text-xs text-gray-500">Система управления оборудованием</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
                     <div id="system-status" class="flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-green-500 status-pulse"></span>
-                        <span class="text-sm text-gray-400">RUNNING</span>
+                        <span class="text-sm text-gray-400">РАБОТАЕТ</span>
                     </div>
                     <span id="last-update" class="text-xs text-gray-500"></span>
                 </div>
@@ -75,22 +75,22 @@
         <nav class="max-w-7xl mx-auto px-4">
             <div class="flex gap-1 overflow-x-auto pb-px">
                 <button class="tab-btn active px-4 py-3 text-sm font-medium border-b-2 border-transparent hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="dashboard">
-                    📊 Dashboard
+                    📊 Обзор
                 </button>
                 <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="devices">
-                    📟 Devices
+                    📟 Устройства
                 </button>
                 <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="logs">
-                    📋 Logs
+                    📋 Логи
                 </button>
                 <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="schedule">
-                    ⏰ Schedule
+                    ⏰ Расписание
                 </button>
                 <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="manual">
-                    🎛️ Manual
+                    🎛️ Управление
                 </button>
                 <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="settings">
-                    ⚙️ Settings
+                    ⚙️ Настройки
                 </button>
             </div>
         </nav>
@@ -105,7 +105,7 @@
                 <!-- Stats Cards -->
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-gray-400 text-sm">Devices Online</span>
+                        <span class="text-gray-400 text-sm">Онлайн</span>
                         <span class="text-green-500">📟</span>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -116,7 +116,7 @@
                 
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-gray-400 text-sm">Success Rate</span>
+                        <span class="text-gray-400 text-sm">Успешность</span>
                         <span class="text-ocean-400">📈</span>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -126,7 +126,7 @@
                 
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-gray-400 text-sm">Last Action</span>
+                        <span class="text-gray-400 text-sm">Последнее</span>
                         <span class="text-yellow-500">⏱️</span>
                     </div>
                     <div id="stat-last-action" class="text-lg font-semibold text-white">--:--</div>
@@ -135,7 +135,7 @@
                 
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-gray-400 text-sm">Next Action</span>
+                        <span class="text-gray-400 text-sm">Следующее</span>
                         <span class="text-blue-500">📅</span>
                     </div>
                     <div id="stat-next-action" class="text-lg font-semibold text-white">--:--</div>
@@ -147,20 +147,20 @@
                 <!-- Alerts Panel -->
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
                     <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        🚨 Alerts
+                        🚨 Оповещения
                     </h2>
                     <div id="alerts-list" class="space-y-3">
-                        <div class="text-gray-500 text-sm">Loading...</div>
+                        <div class="text-gray-500 text-sm">Загрузка...</div>
                     </div>
                 </div>
                 
                 <!-- Quick Status -->
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
                     <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        📊 Device Groups
+                        📊 Группы устройств
                     </h2>
                     <div id="groups-status" class="space-y-3">
-                        <div class="text-gray-500 text-sm">Loading...</div>
+                        <div class="text-gray-500 text-sm">Загрузка...</div>
                     </div>
                 </div>
             </div>
@@ -171,24 +171,24 @@
             <!-- Filters -->
             <div class="flex flex-col md:flex-row gap-4 mb-6">
                 <div class="flex-1">
-                    <input type="text" id="device-search" placeholder="🔍 Search devices..." 
+                    <input type="text" id="device-search" placeholder="🔍 Поиск устройств..." 
                         class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
                 </div>
                 <select id="device-group-filter" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
-                    <option value="">All Groups</option>
-                    <option value="projectors">Projectors</option>
-                    <option value="expositions">Expositions</option>
+                    <option value="">Все группы</option>
+                    <option value="projectors">Проекторы</option>
+                    <option value="expositions">Экспозиции</option>
                 </select>
                 <select id="device-status-filter" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
-                    <option value="">All Status</option>
-                    <option value="online">Online</option>
-                    <option value="offline">Offline</option>
+                    <option value="">Все статусы</option>
+                    <option value="online">Онлайн</option>
+                    <option value="offline">Оффлайн</option>
                 </select>
             </div>
             
             <!-- Device List -->
             <div id="devices-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="text-gray-500">Loading devices...</div>
+                <div class="text-gray-500">Загрузка устройств...</div>
             </div>
         </section>
 
@@ -198,16 +198,16 @@
             <div class="flex flex-col md:flex-row gap-4 mb-6">
                 <input type="date" id="log-date" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
                 <select id="log-level" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
-                    <option value="">All Levels</option>
-                    <option value="INFO">Info</option>
-                    <option value="WARNING">Warning</option>
-                    <option value="ERROR">Error</option>
+                    <option value="">Все уровни</option>
+                    <option value="INFO">Инфо</option>
+                    <option value="WARNING">Предупреждение</option>
+                    <option value="ERROR">Ошибка</option>
                 </select>
                 <select id="log-device" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
-                    <option value="">All Devices</option>
+                    <option value="">Все устройства</option>
                 </select>
                 <button onclick="loadLogs()" class="bg-ocean-600 hover:bg-ocean-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
-                    Apply Filters
+                    Применить фильтр
                 </button>
             </div>
             
@@ -217,15 +217,15 @@
                     <table class="w-full text-sm">
                         <thead class="bg-gray-800 text-gray-400">
                             <tr>
-                                <th class="px-4 py-3 text-left font-medium">Time</th>
-                                <th class="px-4 py-3 text-left font-medium">Device</th>
-                                <th class="px-4 py-3 text-left font-medium">Action</th>
-                                <th class="px-4 py-3 text-left font-medium">Status</th>
-                                <th class="px-4 py-3 text-left font-medium">Message</th>
+                                <th class="px-4 py-3 text-left font-medium">Время</th>
+                                <th class="px-4 py-3 text-left font-medium">Устройство</th>
+                                <th class="px-4 py-3 text-left font-medium">Действие</th>
+                                <th class="px-4 py-3 text-left font-medium">Статус</th>
+                                <th class="px-4 py-3 text-left font-medium">Сообщение</th>
                             </tr>
                         </thead>
                         <tbody id="logs-table" class="divide-y divide-gray-800">
-                            <tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">Loading logs...</td></tr>
+                            <tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">Загрузка логов...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -233,9 +233,9 @@
             
             <!-- Pagination -->
             <div class="flex justify-center gap-2 mt-4">
-                <button id="logs-prev" class="px-4 py-2 bg-gray-800 rounded-lg text-sm disabled:opacity-50" disabled>← Prev</button>
-                <span id="logs-page" class="px-4 py-2 text-gray-400">Page 1</span>
-                <button id="logs-next" class="px-4 py-2 bg-gray-800 rounded-lg text-sm">Next →</button>
+                <button id="logs-prev" class="px-4 py-2 bg-gray-800 rounded-lg text-sm disabled:opacity-50" disabled>← Назад</button>
+                <span id="logs-page" class="px-4 py-2 text-gray-400">Стр. 1</span>
+                <button id="logs-next" class="px-4 py-2 bg-gray-800 rounded-lg text-sm">Далее →</button>
             </div>
         </section>
 
@@ -244,7 +244,7 @@
             <div class="max-w-2xl mx-auto">
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
                     <h2 class="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-                        ⏰ Current Schedule
+                        ⏰ Текущее расписание
                     </h2>
                     
                     <div class="space-y-6">
@@ -252,44 +252,44 @@
                             <div class="flex items-center gap-4">
                                 <span class="text-3xl">🌅</span>
                                 <div>
-                                    <div class="text-sm text-gray-400">Turn ON</div>
+                                    <div class="text-sm text-gray-400">Включение</div>
                                     <div id="schedule-on-time" class="text-2xl font-bold text-green-400">09:00</div>
                                 </div>
                             </div>
-                            <button onclick="openScheduleModal('on')" class="text-ocean-400 hover:text-ocean-300">✏️ Edit</button>
+                            <button onclick="openScheduleModal('on')" class="text-ocean-400 hover:text-ocean-300">✏️ Изменить</button>
                         </div>
                         
                         <div class="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
                             <div class="flex items-center gap-4">
                                 <span class="text-3xl">🌙</span>
                                 <div>
-                                    <div class="text-sm text-gray-400">Turn OFF</div>
+                                    <div class="text-sm text-gray-400">Выключение</div>
                                     <div id="schedule-off-time" class="text-2xl font-bold text-red-400">20:00</div>
                                 </div>
                             </div>
-                            <button onclick="openScheduleModal('off')" class="text-ocean-400 hover:text-ocean-300">✏️ Edit</button>
+                            <button onclick="openScheduleModal('off')" class="text-ocean-400 hover:text-ocean-300">✏️ Изменить</button>
                         </div>
                         
                         <div class="p-4 bg-gray-800 rounded-lg">
                             <div class="flex items-center gap-2 mb-2">
                                 <span>🌍</span>
-                                <span class="text-gray-400">Timezone:</span>
+                                <span class="text-gray-400">Часовой пояс:</span>
                                 <span id="schedule-timezone" class="text-white font-medium">Asia/Vladivostok</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span>📅</span>
-                                <span class="text-gray-400">Days:</span>
-                                <span id="schedule-days" class="text-white font-medium">Every day</span>
+                                <span class="text-gray-400">Дни:</span>
+                                <span id="schedule-days" class="text-white font-medium">Ежедневно</span>
                             </div>
                         </div>
                         
                         <div class="p-4 bg-gray-800 rounded-lg">
                             <div class="flex items-center justify-between mb-3">
-                                <span class="text-gray-400">Excluded Dates</span>
-                                <button onclick="openExcludeDateModal()" class="text-sm text-ocean-400 hover:text-ocean-300">+ Add</button>
+                                <span class="text-gray-400">Исключенные даты</span>
+                                <button onclick="openExcludeDateModal()" class="text-sm text-ocean-400 hover:text-ocean-300">+ Добавить</button>
                             </div>
                             <div id="excluded-dates" class="flex flex-wrap gap-2">
-                                <span class="text-gray-500 text-sm">No excluded dates</span>
+                                <span class="text-gray-500 text-sm">Нет исключённых дат</span>
                             </div>
                         </div>
                     </div>
@@ -297,9 +297,9 @@
                 
                 <!-- Next Jobs -->
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mt-6">
-                    <h3 class="text-lg font-semibold text-white mb-4">📋 Scheduled Jobs</h3>
+                    <h3 class="text-lg font-semibold text-white mb-4">📋 Запланированные задачи</h3>
                     <div id="scheduled-jobs" class="space-y-3">
-                        <div class="text-gray-500 text-sm">Loading...</div>
+                        <div class="text-gray-500 text-sm">Загрузка...</div>
                     </div>
                 </div>
             </div>
@@ -311,8 +311,8 @@
                 <div class="flex items-center gap-3">
                     <span class="text-2xl">⚠️</span>
                     <div>
-                        <div class="font-semibold text-yellow-400">Manual Override Mode</div>
-                        <div class="text-sm text-yellow-200/70">Use with caution. Actions will be logged.</div>
+                        <div class="font-semibold text-yellow-400">Режим ручного управления</div>
+                        <div class="text-sm text-yellow-200/70">Будьте осторожны. Действия будут записаны в лог.</div>
                     </div>
                 </div>
             </div>
@@ -320,31 +320,31 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Quick Actions -->
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                    <h3 class="text-lg font-semibold text-white mb-4">🚀 Quick Actions</h3>
+                    <h3 class="text-lg font-semibold text-white mb-4">🚀 Быстрые действия</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <button onclick="turnOnAll()" class="bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl text-lg font-semibold transition-colors flex items-center justify-center gap-2">
-                            🟢 TURN ON ALL
+                            🟢 ВКЛЮЧИТЬ ВСЁ
                         </button>
                         <button onclick="turnOffAll()" class="bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl text-lg font-semibold transition-colors flex items-center justify-center gap-2">
-                            🔴 TURN OFF ALL
+                            🔴 ВЫКЛЮЧИТЬ ВСЁ
                         </button>
                     </div>
                     
                     <div class="mt-6">
-                        <h4 class="text-sm font-medium text-gray-400 mb-3">By Group</h4>
+                        <h4 class="text-sm font-medium text-gray-400 mb-3">По группам</h4>
                         <div class="space-y-2" id="group-controls">
                             <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
-                                <span>Projectors</span>
+                                <span>Проекторы</span>
                                 <div class="flex gap-2">
-                                    <button onclick="turnOnGroup('projectors')" class="px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm">ON</button>
-                                    <button onclick="turnOffGroup('projectors')" class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">OFF</button>
+                                    <button onclick="turnOnGroup('projectors')" class="px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm">ВКЛ</button>
+                                    <button onclick="turnOffGroup('projectors')" class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">ВЫКЛ</button>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
-                                <span>Expositions</span>
+                                <span>Экспозиции</span>
                                 <div class="flex gap-2">
-                                    <button onclick="turnOnGroup('expositions')" class="px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm">ON</button>
-                                    <button onclick="turnOffGroup('expositions')" class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">OFF</button>
+                                    <button onclick="turnOnGroup('expositions')" class="px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm">ВКЛ</button>
+                                    <button onclick="turnOffGroup('expositions')" class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">ВЫКЛ</button>
                                 </div>
                             </div>
                         </div>
@@ -353,20 +353,20 @@
                 
                 <!-- Selective Control -->
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                    <h3 class="text-lg font-semibold text-white mb-4">🎯 Selective Control</h3>
+                    <h3 class="text-lg font-semibold text-white mb-4">🎯 Выборочное управление</h3>
                     <div class="flex gap-2 mb-4">
-                        <button onclick="selectAllDevices()" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">Select All</button>
-                        <button onclick="deselectAllDevices()" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">Deselect All</button>
+                        <button onclick="selectAllDevices()" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">Выбрать всё</button>
+                        <button onclick="deselectAllDevices()" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">Снять всё</button>
                     </div>
                     <div id="manual-device-list" class="max-h-64 overflow-y-auto space-y-2 mb-4">
-                        <div class="text-gray-500 text-sm">Loading devices...</div>
+                        <div class="text-gray-500 text-sm">Загрузка устройств...</div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <button onclick="turnOnSelected()" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium transition-colors">
-                            🟢 ON Selected
+                            🟢 ВКЛ выбранные
                         </button>
                         <button onclick="turnOffSelected()" class="bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-medium transition-colors">
-                            🔴 OFF Selected
+                            🔴 ВЫКЛ выбранные
                         </button>
                     </div>
                 </div>
@@ -374,9 +374,9 @@
             
             <!-- Real-time Feedback -->
             <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mt-6">
-                <h3 class="text-lg font-semibold text-white mb-4">📡 Real-time Feedback</h3>
+                <h3 class="text-lg font-semibold text-white mb-4">📡 Результаты</h3>
                 <div id="action-log" class="font-mono text-sm bg-gray-950 rounded-lg p-4 h-48 overflow-y-auto">
-                    <div class="text-gray-500">Waiting for actions...</div>
+                    <div class="text-gray-500">Ожидание действий...</div>
                 </div>
             </div>
         </section>
@@ -385,20 +385,20 @@
         <section id="tab-settings" class="tab-content hidden fade-in">
             <div class="max-w-2xl mx-auto space-y-6">
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                    <h3 class="text-lg font-semibold text-white mb-4">🔄 Retry Policy</h3>
+                    <h3 class="text-lg font-semibold text-white mb-4">🔄 Политика повторов</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm text-gray-400 mb-2">Max Attempts</label>
+                            <label class="block text-sm text-gray-400 mb-2">Макс. попыток</label>
                             <input type="number" id="setting-max-attempts" value="3" min="1" max="10"
                                 class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-sm text-gray-400 mb-2">Base Interval (seconds)</label>
+                            <label class="block text-sm text-gray-400 mb-2">Базовый интервал (секунды)</label>
                             <input type="number" id="setting-base-interval" value="30" min="5" max="300"
                                 class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-sm text-gray-400 mb-2">Backoff Multiplier</label>
+                            <label class="block text-sm text-gray-400 mb-2">Множитель</label>
                             <input type="number" id="setting-backoff" value="2.0" min="1" max="5" step="0.1"
                                 class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
                         </div>
@@ -406,15 +406,15 @@
                 </div>
                 
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                    <h3 class="text-lg font-semibold text-white mb-4">📊 Monitoring</h3>
+                    <h3 class="text-lg font-semibold text-white mb-4">📊 Мониторинг</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm text-gray-400 mb-2">Status Check Interval (seconds)</label>
+                            <label class="block text-sm text-gray-400 mb-2">Интервал проверки (секунды)</label>
                             <input type="number" id="setting-check-interval" value="300" min="60" max="3600"
                                 class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-sm text-gray-400 mb-2">Alert Threshold (%)</label>
+                            <label class="block text-sm text-gray-400 mb-2">Порог оповещения (%)</label>
                             <input type="number" id="setting-alert-threshold" value="80" min="50" max="100"
                                 class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
                         </div>
@@ -422,33 +422,33 @@
                 </div>
                 
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                    <h3 class="text-lg font-semibold text-white mb-4">💾 Actions</h3>
+                    <h3 class="text-lg font-semibold text-white mb-4">💾 Действия</h3>
                     <div class="flex flex-wrap gap-4">
                         <button onclick="saveSettings()" class="bg-ocean-600 hover:bg-ocean-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
-                            💾 Save Settings
+                            💾 Сохранить
                         </button>
                         <button onclick="reloadConfig()" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
-                            🔄 Reload Config
+                            🔄 Перезагрузить
                         </button>
                         <button onclick="exportLogs()" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
-                            📥 Export Logs
+                            📥 Экспорт логов
                         </button>
                     </div>
                 </div>
                 
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                    <h3 class="text-lg font-semibold text-white mb-4">ℹ️ System Info</h3>
+                    <h3 class="text-lg font-semibold text-white mb-4">ℹ️ Информация</h3>
                     <div class="space-y-2 text-sm">
                         <div class="flex justify-between">
-                            <span class="text-gray-400">Version</span>
+                            <span class="text-gray-400">Версия</span>
                             <span>1.0.0</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-gray-400">API Endpoint</span>
+                            <span class="text-gray-400">API</span>
                             <span id="api-endpoint">http://localhost:8000</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-gray-400">Uptime</span>
+                            <span class="text-gray-400">Время работы</span>
                             <span id="uptime">--</span>
                         </div>
                     </div>
@@ -460,16 +460,16 @@
     <!-- Schedule Edit Modal -->
     <div id="schedule-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
         <div class="bg-gray-900 border border-gray-700 rounded-xl p-6 w-full max-w-md mx-4">
-            <h3 id="schedule-modal-title" class="text-lg font-semibold text-white mb-4">Edit Schedule</h3>
+            <h3 id="schedule-modal-title" class="text-lg font-semibold text-white mb-4">Изменить расписание</h3>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm text-gray-400 mb-2">Time</label>
+                    <label class="block text-sm text-gray-400 mb-2">Время</label>
                     <input type="time" id="schedule-modal-time" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
                 </div>
             </div>
             <div class="flex justify-end gap-3 mt-6">
-                <button onclick="closeScheduleModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">Cancel</button>
-                <button onclick="saveSchedule()" class="px-4 py-2 bg-ocean-600 hover:bg-ocean-700 rounded-lg transition-colors">Save</button>
+                <button onclick="closeScheduleModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">Отмена</button>
+                <button onclick="saveSchedule()" class="px-4 py-2 bg-ocean-600 hover:bg-ocean-700 rounded-lg transition-colors">Сохранить</button>
             </div>
         </div>
     </div>
@@ -591,7 +591,7 @@
                     </div>
                 `).join('');
             } else {
-                alertsList.innerHTML = '<div class="flex items-center gap-2 text-green-400"><span>✅</span> All systems operating normally</div>';
+                alertsList.innerHTML = '<div class="flex items-center gap-2 text-green-400"><span>✅</span> Все системы работают нормально</div>';
             }
             
             // Load group stats
@@ -642,7 +642,7 @@
             const container = document.getElementById('devices-list');
             
             if (filtered.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">No devices found</div>';
+                container.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">Устройства не найдены</div>';
                 return;
             }
             
@@ -659,20 +659,20 @@
                                 <p class="text-sm text-gray-500">${d.ip}:${d.port || '--'}</p>
                             </div>
                             <span class="px-2 py-1 rounded-full text-xs font-medium ${statusColor}">
-                                ${statusEmoji} ${d.status || 'unknown'}
+                                ${statusEmoji} ${d.status === 'online' ? 'В сети' : d.status === 'offline' ? 'Не в сети' : d.status || 'неизвестно'}
                             </span>
                         </div>
                         <div class="text-xs text-gray-500 mb-3">
-                            Type: ${d.type} | Group: ${d.group}
+                            Тип: ${d.type} | Группа: ${d.group}
                         </div>
                         <div class="flex gap-2">
                             <button onclick="turnOnDevice('${d.id}')" 
                                 class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm font-medium transition-colors">
-                                🟢 ON
+                                🟢 ВКЛ
                             </button>
                             <button onclick="turnOffDevice('${d.id}')" 
                                 class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-medium transition-colors">
-                                🔴 OFF
+                                🔴 ВЫКЛ
                             </button>
                         </div>
                     </div>
@@ -687,62 +687,62 @@
         
         // ===== Device Actions =====
         async function turnOnDevice(id) {
-            showToast(`Turning on ${id}...`, 'info');
+            showToast(`Включение ${id}...`, 'info');
             const result = await apiPost(`/api/devices/${id}/on`);
             if (result && result.success) {
-                showToast(`${id} turned on successfully`, 'success');
+                showToast(`${id} успешно включен`, 'success');
             } else {
-                showToast(`Failed to turn on ${id}`, 'error');
+                showToast(`Ошибка включения ${id}`, 'error');
             }
             loadDevices();
         }
         
         async function turnOffDevice(id) {
-            showToast(`Turning off ${id}...`, 'info');
+            showToast(`Выключение ${id}...`, 'info');
             const result = await apiPost(`/api/devices/${id}/off`);
             if (result && result.success) {
-                showToast(`${id} turned off successfully`, 'success');
+                showToast(`${id} успешно выключен`, 'success');
             } else {
-                showToast(`Failed to turn off ${id}`, 'error');
+                showToast(`Ошибка выключения ${id}`, 'error');
             }
             loadDevices();
         }
         
         async function turnOnAll() {
-            if (!confirm('Turn ON all devices?')) return;
-            showToast('Turning on all devices...', 'info');
-            addActionLog('⏳ Starting TURN ON ALL...');
+            if (!confirm('ВКЛЮЧИТЬ все устройства?')) return;
+            showToast('Включение всех устройств...', 'info');
+            addActionLog('⏳ Начало ВКЛЮЧЕНИЯ ВСЕХ...');
             const result = await apiPost('/api/devices/all/on');
             if (result) {
-                showToast(`Turned on: ${result.successful}/${result.total}`, result.failed > 0 ? 'warning' : 'success');
-                addActionLog(`✅ Complete: ${result.successful}/${result.total} devices`);
+                showToast(`Включено: ${result.successful}/${result.total}`, result.failed > 0 ? 'warning' : 'success');
+                addActionLog(`✅ Завершено: ${result.successful}/${result.total} устройств`);
             }
             loadDevices();
         }
         
         async function turnOffAll() {
-            if (!confirm('Turn OFF all devices?')) return;
-            showToast('Turning off all devices...', 'info');
-            addActionLog('⏳ Starting TURN OFF ALL...');
+            if (!confirm('ВЫКЛЮЧИТЬ все устройства?')) return;
+            showToast('Выключение всех устройств...', 'info');
+            addActionLog('⏳ Начало ВЫКЛЮЧЕНИЯ ВСЕХ...');
             const result = await apiPost('/api/devices/all/off');
             if (result) {
-                showToast(`Turned off: ${result.successful}/${result.total}`, result.failed > 0 ? 'warning' : 'success');
-                addActionLog(`✅ Complete: ${result.successful}/${result.total} devices`);
+                showToast(`Выключено: ${result.successful}/${result.total}`, result.failed > 0 ? 'warning' : 'success');
+                addActionLog(`✅ Завершено: ${result.successful}/${result.total} устройств`);
             }
             loadDevices();
         }
         
         async function turnOnGroup(group) {
-            showToast(`Turning on ${group}...`, 'info');
+            showToast(`Включение группы ${group}...`, 'info');
             const result = await apiPost(`/api/groups/${group}/on`);
-            if (result) showToast(`${group}: ${result.successful}/${result.total} on`, 'success');
+            if (result) showToast(`${group}: ${result.successful}/${result.total} включено`, 'success');
             loadDevices();
         }
         
         async function turnOffGroup(group) {
-            showToast(`Turning off ${group}...`, 'info');
+            showToast(`Выключение группы ${group}...`, 'info');
             const result = await apiPost(`/api/groups/${group}/off`);
-            if (result) showToast(`${group}: ${result.successful}/${result.total} off`, 'success');
+            if (result) showToast(`${group}: ${result.successful}/${result.total} выключено`, 'success');
             loadDevices();
         }
         
@@ -772,24 +772,24 @@
         
         async function turnOnSelected() {
             const selected = getSelectedDevices();
-            if (selected.length === 0) return showToast('No devices selected', 'warning');
+            if (selected.length === 0) return showToast('Устройства не выбраны', 'warning');
             
-            addActionLog(`⏳ Turning on ${selected.length} devices...`);
+            addActionLog(`⏳ Включение ${selected.length} устройств...`);
             for (const id of selected) {
                 const result = await apiPost(`/api/devices/${id}/on`);
-                addActionLog(result?.success ? `✅ ${id} — Success` : `❌ ${id} — Failed`);
+                addActionLog(result?.success ? `✅ ${id} — Успех` : `❌ ${id} — Ошибка`);
             }
             loadDevices();
         }
         
         async function turnOffSelected() {
             const selected = getSelectedDevices();
-            if (selected.length === 0) return showToast('No devices selected', 'warning');
+            if (selected.length === 0) return showToast('Устройства не выбраны', 'warning');
             
-            addActionLog(`⏳ Turning off ${selected.length} devices...`);
+            addActionLog(`⏳ Выключение ${selected.length} устройств...`);
             for (const id of selected) {
                 const result = await apiPost(`/api/devices/${id}/off`);
-                addActionLog(result?.success ? `✅ ${id} — Success` : `❌ ${id} — Failed`);
+                addActionLog(result?.success ? `✅ ${id} — Успех` : `❌ ${id} — Ошибка`);
             }
             loadDevices();
         }
@@ -815,7 +815,7 @@
             const tbody = document.getElementById('logs-table');
             
             if (!data || !data.logs || data.logs.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">No logs found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">Логов не найдено</td></tr>';
                 return;
             }
             
@@ -862,7 +862,7 @@
                 document.getElementById('schedule-on-time').textContent = data.on_time || '09:00';
                 document.getElementById('schedule-off-time').textContent = data.off_time || '20:00';
                 document.getElementById('schedule-timezone').textContent = data.timezone || 'Asia/Vladivostok';
-                document.getElementById('schedule-days').textContent = data.days?.join(', ') || 'Every day';
+                document.getElementById('schedule-days').textContent = data.days?.join(', ') || 'Ежедневно';
                 
                 // Excluded dates
                 const excludedContainer = document.getElementById('excluded-dates');
@@ -874,7 +874,7 @@
                         </span>
                     `).join('');
                 } else {
-                    excludedContainer.innerHTML = '<span class="text-gray-500 text-sm">No excluded dates</span>';
+                    excludedContainer.innerHTML = '<span class="text-gray-500 text-sm">Нет исключенных дат</span>';
                 }
             }
             
@@ -888,7 +888,7 @@
                             <div class="font-medium">${j.name || j.id}</div>
                             <div class="text-sm text-gray-500">Next: ${j.next_run ? new Date(j.next_run).toLocaleString('ru-RU') : '--'}</div>
                         </div>
-                        <button onclick="triggerJob('${j.id}')" class="text-ocean-400 hover:text-ocean-300 text-sm">▶️ Run Now</button>
+                        <button onclick="triggerJob('${j.id}')" class="text-ocean-400 hover:text-ocean-300 text-sm">▶️ Запустить</button>
                     </div>
                 `).join('');
             }
@@ -896,7 +896,7 @@
         
         function openScheduleModal(type) {
             scheduleEditType = type;
-            document.getElementById('schedule-modal-title').textContent = `Edit Turn ${type.toUpperCase()} Time`;
+            document.getElementById('schedule-modal-title').textContent = type === 'on' ? 'Изменить время включения' : 'Изменить время выключения';
             document.getElementById('schedule-modal-time').value = 
                 document.getElementById(`schedule-${type}-time`).textContent;
             document.getElementById('schedule-modal').classList.remove('hidden');
@@ -914,7 +914,7 @@
             
             const result = await apiPost('/api/schedule', data);
             if (result) {
-                showToast('Schedule updated', 'success');
+                showToast('Расписание обновлено', 'success');
                 closeScheduleModal();
                 loadSchedule();
             }
@@ -922,7 +922,7 @@
         
         async function triggerJob(jobId) {
             const result = await apiPost(`/api/schedule/jobs/${jobId}/trigger`);
-            if (result) showToast('Job triggered', 'success');
+            if (result) showToast('Задача запущена', 'success');
         }
         
         // ===== Settings =====
@@ -940,12 +940,12 @@
             };
             
             const result = await apiPost('/api/settings', settings);
-            if (result) showToast('Settings saved', 'success');
+            if (result) showToast('Настройки сохранены', 'success');
         }
         
         async function reloadConfig() {
             const result = await apiPost('/api/config/reload');
-            if (result) showToast('Config reloaded', 'success');
+            if (result) showToast('Конфигурация перезагружена', 'success');
         }
         
         function exportLogs() {
