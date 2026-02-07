@@ -161,11 +161,10 @@ class SchedulerService:
         Returns:
             AsyncIOScheduler
         """
-        # JobStore с SQLite для персистентности
+        # Use memory jobstore (SQLite has pickle serialization issues with async callbacks)
+        # For production, jobs are re-added on startup anyway
         jobstores = {
-            "default": SQLAlchemyJobStore(
-                url=f"sqlite:///{self.db_path}"
-            )
+            # "default": SQLAlchemyJobStore(url=f"sqlite:///{self.db_path}")
         }
         
         # Настройки executor'а

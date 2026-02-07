@@ -10,12 +10,18 @@ Main Application Entry Point
 """
 
 import asyncio
+import io
 import json
 import sys
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, List, Dict, Any
+
+# Fix Windows console encoding
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 import structlog
 import uvicorn
@@ -87,6 +93,32 @@ class SettingsUpdateRequest(BaseModel):
     monitoring: Optional[Dict[str, Any]] = None
 
 
+# ===== Scheduler Callbacks (module-level for pickle serialization) =====
+async def on_turn_on():
+    """Callback for scheduled turn on."""
+    if device_manager:
+        report = await device_manager.turn_on_all(parallel=True)
+        if report_generator:
+            report_generator.record_execution(report)
+        return report
+
+async def on_turn_off():
+    """Callback for scheduled turn off."""
+    if device_manager:
+        report = await device_manager.turn_off_all(parallel=True)
+        if report_generator:
+            report_generator.record_execution(report)
+        return report
+
+async def on_status_check():
+    """Callback for scheduled status check."""
+    if monitor_service:
+        result = await monitor_service.check_all_devices()
+        if report_generator and "online_rate" in result:
+            report_generator.record_online_rate(result["online_rate"])
+        return result
+
+
 # ===== Lifespan =====
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -102,23 +134,6 @@ async def lifespan(app: FastAPI):
     device_manager = DeviceManager.from_config(str(CONFIG_PATH))
     monitor_service = MonitorService.from_config(str(CONFIG_PATH))
     report_generator = ReportGenerator(reports_dir=str(DATA_DIR / "reports"))
-    
-    # Initialize scheduler with callbacks
-    async def on_turn_on():
-        report = await device_manager.turn_on_all(parallel=True)
-        report_generator.record_execution(report)
-        return report
-    
-    async def on_turn_off():
-        report = await device_manager.turn_off_all(parallel=True)
-        report_generator.record_execution(report)
-        return report
-    
-    async def on_status_check():
-        result = await monitor_service.check_all_devices()
-        if "online_rate" in result:
-            report_generator.record_online_rate(result["online_rate"])
-        return result
     
     scheduler_config = SchedulerConfig(
         schedule=ScheduleConfig(
