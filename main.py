@@ -485,14 +485,34 @@ async def get_schedule():
     config = scheduler_service.config.schedule
     next_runs = scheduler_service.get_next_run_times()
     
+    on_next = next_runs.get("daily_turn_on")
+    off_next = next_runs.get("daily_turn_off")
+    
+    next_exec = None
+    next_act = None
+    
+    if on_next and off_next:
+        if on_next < off_next:
+            next_exec = on_next
+            next_act = "TURN_ON"
+        else:
+            next_exec = off_next
+            next_act = "TURN_OFF"
+    elif on_next:
+        next_exec = on_next
+        next_act = "TURN_ON"
+    elif off_next:
+        next_exec = off_next
+        next_act = "TURN_OFF"
+    
     return {
         "on_time": config.on_time,
         "off_time": config.off_time,
         "timezone": config.timezone,
         "days": config.days,
         "exclude_dates": config.exclude_dates,
-        "next_execution": next_runs.get("daily_turn_on", "").isoformat() if next_runs.get("daily_turn_on") else None,
-        "next_action": "TURN_ON"
+        "next_execution": next_exec.isoformat() if next_exec else None,
+        "next_action": next_act
     }
 
 
