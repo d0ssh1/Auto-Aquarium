@@ -258,7 +258,7 @@ async def get_devices():
             "ip": d.ip,
             "port": d.port,
             "type": d.device_type,
-            "group": d.group_id,
+            "group": d.group,
             "enabled": d.enabled,
             "status": health.state.value if health else "unknown",
             "last_check": health.last_check.isoformat() if health and health.last_check else None
@@ -420,7 +420,7 @@ async def get_groups_status():
     if not device_manager or not monitor_service:
         raise HTTPException(500, "Services not initialized")
     
-    groups = device_manager.registry.get_sorted_groups()
+    groups = device_manager.registry.get_groups_sorted()
     result = []
     
     for group in groups:
