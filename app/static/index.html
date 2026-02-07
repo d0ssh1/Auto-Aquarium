@@ -571,10 +571,28 @@
             // Load schedule info
             const schedule = await apiGet('/api/schedule');
             if (schedule) {
-                document.getElementById('stat-last-action').textContent = schedule.last_execution || '--:--';
-                document.getElementById('stat-last-action-type').textContent = schedule.last_action || '--';
-                document.getElementById('stat-next-action').textContent = schedule.next_execution || '--:--';
-                document.getElementById('stat-next-action-type').textContent = schedule.next_action || '--';
+                const formatTime = (iso) => {
+                    if (!iso) return '--:--';
+                    const d = new Date(iso);
+                    // Format: 08.02 09:00
+                    return d.toLocaleDateString('ru-RU', {day: '2-digit', month: '2-digit'}) + ' ' + 
+                           d.toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
+                };
+
+                const translateAction = (action) => {
+                    if (!action) return '--';
+                    const map = {
+                        'TURN_ON': 'Включение оборудования',
+                        'TURN_OFF': 'Выключение оборудования',
+                        'STATUS_CHECK': 'Проверка статуса'
+                    };
+                    return map[action] || action;
+                };
+
+                document.getElementById('stat-last-action').textContent = formatTime(schedule.last_execution);
+                document.getElementById('stat-last-action-type').textContent = translateAction(schedule.last_action);
+                document.getElementById('stat-next-action').textContent = formatTime(schedule.next_execution);
+                document.getElementById('stat-next-action-type').textContent = translateAction(schedule.next_action);
             }
             
             // Load alerts
@@ -591,7 +609,14 @@
                     </div>
                 `).join('');
             } else {
-                alertsList.innerHTML = '<div class="flex items-center gap-2 text-green-400"><span>✅</span> Все системы работают нормально</div>';
+                alertsList.innerHTML = `
+                    <div class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg text-green-400">
+                        <span class="text-xl">✅</span> 
+                        <div>
+                            <div class="font-medium">Система работает штатно</div>
+                            <div class="text-xs text-gray-500 opacity-70">Активных предупреждений нет</div>
+                        </div>
+                    </div>`;
             }
             
             // Load group stats
