@@ -55,6 +55,7 @@ class RetryPolicy(BaseModel):
 
 class MonitoringConfig(BaseModel):
     """Конфигурация мониторинга."""
+    enabled: bool = True
     status_check_interval_sec: int = 300
     alert_threshold: float = 0.8
 
@@ -303,6 +304,11 @@ class SchedulerService:
     
     async def _execute_status_check(self) -> None:
         """Выполнить проверку статуса."""
+        # Проверяем, включен ли мониторинг
+        if not self.config.monitoring.enabled:
+            # logger.debug("scheduler_status_check_skipped", reason="disabled")
+            return
+
         logger.debug("scheduler_status_check_start")
         
         if self._status_check_callback:

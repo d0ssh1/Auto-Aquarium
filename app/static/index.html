@@ -408,6 +408,16 @@
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
                     <h3 class="text-lg font-semibold text-white mb-4">📊 Мониторинг</h3>
                     <div class="space-y-4">
+                        <div class="flex items-center justify-between pb-4 border-b border-gray-800">
+                            <div>
+                                <label class="block text-sm text-gray-300 font-medium">Активность мониторинга</label>
+                                <div class="text-xs text-gray-500">Включить периодическую проверку статуса устройств</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="setting-monitoring-enabled" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-ocean-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-ocean-600"></div>
+                            </label>
+                        </div>
                         <div>
                             <label class="block text-sm text-gray-400 mb-2">Интервал проверки (секунды)</label>
                             <input type="number" id="setting-check-interval" value="300" min="60" max="3600"
@@ -505,6 +515,7 @@
                 if (tabId === 'devices') loadDevices();
                 if (tabId === 'logs') loadLogs();
                 if (tabId === 'schedule') loadSchedule();
+                if (tabId === 'settings') loadSettings();
             });
         });
         
@@ -951,6 +962,25 @@
         }
         
         // ===== Settings =====
+        async function loadSettings() {
+            const settings = await apiGet('/api/settings');
+            if (settings) {
+                // Retry Policy
+                if (settings.retry_policy) {
+                    document.getElementById('setting-max-attempts').value = settings.retry_policy.max_attempts || 3;
+                    document.getElementById('setting-base-interval').value = settings.retry_policy.base_interval_sec || 30;
+                    document.getElementById('setting-backoff').value = settings.retry_policy.backoff_multiplier || 2.0;
+                }
+                
+                // Monitoring
+                if (settings.monitoring) {
+                    document.getElementById('setting-monitoring-enabled').checked = settings.monitoring.enabled !== false;
+                    document.getElementById('setting-check-interval').value = settings.monitoring.status_check_interval_sec || 300;
+                    document.getElementById('setting-alert-threshold').value = (settings.monitoring.alert_threshold || 0.8) * 100;
+                }
+            }
+        }
+
         async function saveSettings() {
             const settings = {
                 retry_policy: {
@@ -959,6 +989,7 @@
                     backoff_multiplier: parseFloat(document.getElementById('setting-backoff').value)
                 },
                 monitoring: {
+                    enabled: document.getElementById('setting-monitoring-enabled').checked,
                     status_check_interval_sec: parseInt(document.getElementById('setting-check-interval').value),
                     alert_threshold: parseInt(document.getElementById('setting-alert-threshold').value) / 100
                 }

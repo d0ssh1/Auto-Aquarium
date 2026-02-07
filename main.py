@@ -142,6 +142,11 @@ async def lifespan(app: FastAPI):
             timezone=config.get("schedule", {}).get("timezone", "Asia/Vladivostok"),
             days=config.get("schedule", {}).get("days", []),
             exclude_dates=config.get("schedule", {}).get("exclude_dates", [])
+        ),
+        monitoring=MonitoringConfig(
+            enabled=config.get("monitoring", {}).get("enabled", True),
+            status_check_interval_sec=config.get("monitoring", {}).get("status_check_interval_sec", 300),
+            alert_threshold=config.get("monitoring", {}).get("alert_threshold", 0.8)
         )
     )
     
