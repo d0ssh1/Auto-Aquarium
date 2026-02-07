@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean Aquarium — Equipment Control</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            200: '#a5f3fc',
+                            300: '#67e8f9',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                            950: '#083344',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        .tab-btn.active { border-bottom-color: #22d3ee; color: #22d3ee; }
+        .status-pulse { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .fade-in { animation: fadeIn 0.2s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">🌊</span>
+                    <div>
+                        <h1 class="text-lg font-bold text-ocean-400">OCEAN AQUARIUM</h1>
+                        <p class="text-xs text-gray-500">Equipment Control System</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div id="system-status" class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 status-pulse"></span>
+                        <span class="text-sm text-gray-400">RUNNING</span>
+                    </div>
+                    <span id="last-update" class="text-xs text-gray-500"></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <nav class="max-w-7xl mx-auto px-4">
+            <div class="flex gap-1 overflow-x-auto pb-px">
+                <button class="tab-btn active px-4 py-3 text-sm font-medium border-b-2 border-transparent hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="dashboard">
+                    📊 Dashboard
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="devices">
+                    📟 Devices
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="logs">
+                    📋 Logs
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="schedule">
+                    ⏰ Schedule
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="manual">
+                    🎛️ Manual
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-ocean-400 transition-colors whitespace-nowrap" data-tab="settings">
+                    ⚙️ Settings
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        
+        <!-- Dashboard Tab -->
+        <section id="tab-dashboard" class="tab-content fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <!-- Stats Cards -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-400 text-sm">Devices Online</span>
+                        <span class="text-green-500">📟</span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span id="stat-online" class="text-3xl font-bold text-white">--</span>
+                        <span class="text-gray-500">/ <span id="stat-total">--</span></span>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-400 text-sm">Success Rate</span>
+                        <span class="text-ocean-400">📈</span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span id="stat-rate" class="text-3xl font-bold text-white">--%</span>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-400 text-sm">Last Action</span>
+                        <span class="text-yellow-500">⏱️</span>
+                    </div>
+                    <div id="stat-last-action" class="text-lg font-semibold text-white">--:--</div>
+                    <div id="stat-last-action-type" class="text-sm text-gray-500">--</div>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-400 text-sm">Next Action</span>
+                        <span class="text-blue-500">📅</span>
+                    </div>
+                    <div id="stat-next-action" class="text-lg font-semibold text-white">--:--</div>
+                    <div id="stat-next-action-type" class="text-sm text-gray-500">--</div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Alerts Panel -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
+                    <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                        🚨 Alerts
+                    </h2>
+                    <div id="alerts-list" class="space-y-3">
+                        <div class="text-gray-500 text-sm">Loading...</div>
+                    </div>
+                </div>
+                
+                <!-- Quick Status -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
+                    <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                        📊 Device Groups
+                    </h2>
+                    <div id="groups-status" class="space-y-3">
+                        <div class="text-gray-500 text-sm">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Devices Tab -->
+        <section id="tab-devices" class="tab-content hidden fade-in">
+            <!-- Filters -->
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <div class="flex-1">
+                    <input type="text" id="device-search" placeholder="🔍 Search devices..." 
+                        class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
+                </div>
+                <select id="device-group-filter" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
+                    <option value="">All Groups</option>
+                    <option value="projectors">Projectors</option>
+                    <option value="expositions">Expositions</option>
+                </select>
+                <select id="device-status-filter" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
+                    <option value="">All Status</option>
+                    <option value="online">Online</option>
+                    <option value="offline">Offline</option>
+                </select>
+            </div>
+            
+            <!-- Device List -->
+            <div id="devices-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="text-gray-500">Loading devices...</div>
+            </div>
+        </section>
+
+        <!-- Logs Tab -->
+        <section id="tab-logs" class="tab-content hidden fade-in">
+            <!-- Log Filters -->
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <input type="date" id="log-date" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
+                <select id="log-level" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
+                    <option value="">All Levels</option>
+                    <option value="INFO">Info</option>
+                    <option value="WARNING">Warning</option>
+                    <option value="ERROR">Error</option>
+                </select>
+                <select id="log-device" class="bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:border-ocean-500 focus:outline-none">
+                    <option value="">All Devices</option>
+                </select>
+                <button onclick="loadLogs()" class="bg-ocean-600 hover:bg-ocean-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    Apply Filters
+                </button>
+            </div>
+            
+            <!-- Logs Table -->
+            <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-800 text-gray-400">
+                            <tr>
+                                <th class="px-4 py-3 text-left font-medium">Time</th>
+                                <th class="px-4 py-3 text-left font-medium">Device</th>
+                                <th class="px-4 py-3 text-left font-medium">Action</th>
+                                <th class="px-4 py-3 text-left font-medium">Status</th>
+                                <th class="px-4 py-3 text-left font-medium">Message</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table" class="divide-y divide-gray-800">
+                            <tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">Loading logs...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="flex justify-center gap-2 mt-4">
+                <button id="logs-prev" class="px-4 py-2 bg-gray-800 rounded-lg text-sm disabled:opacity-50" disabled>← Prev</button>
+                <span id="logs-page" class="px-4 py-2 text-gray-400">Page 1</span>
+                <button id="logs-next" class="px-4 py-2 bg-gray-800 rounded-lg text-sm">Next →</button>
+            </div>
+        </section>
+
+        <!-- Schedule Tab -->
+        <section id="tab-schedule" class="tab-content hidden fade-in">
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                    <h2 class="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                        ⏰ Current Schedule
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
+                            <div class="flex items-center gap-4">
+                                <span class="text-3xl">🌅</span>
+                                <div>
+                                    <div class="text-sm text-gray-400">Turn ON</div>
+                                    <div id="schedule-on-time" class="text-2xl font-bold text-green-400">09:00</div>
+                                </div>
+                            </div>
+                            <button onclick="openScheduleModal('on')" class="text-ocean-400 hover:text-ocean-300">✏️ Edit</button>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
+                            <div class="flex items-center gap-4">
+                                <span class="text-3xl">🌙</span>
+                                <div>
+                                    <div class="text-sm text-gray-400">Turn OFF</div>
+                                    <div id="schedule-off-time" class="text-2xl font-bold text-red-400">20:00</div>
+                                </div>
+                            </div>
+                            <button onclick="openScheduleModal('off')" class="text-ocean-400 hover:text-ocean-300">✏️ Edit</button>
+                        </div>
+                        
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span>🌍</span>
+                                <span class="text-gray-400">Timezone:</span>
+                                <span id="schedule-timezone" class="text-white font-medium">Asia/Vladivostok</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span>📅</span>
+                                <span class="text-gray-400">Days:</span>
+                                <span id="schedule-days" class="text-white font-medium">Every day</span>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-gray-400">Excluded Dates</span>
+                                <button onclick="openExcludeDateModal()" class="text-sm text-ocean-400 hover:text-ocean-300">+ Add</button>
+                            </div>
+                            <div id="excluded-dates" class="flex flex-wrap gap-2">
+                                <span class="text-gray-500 text-sm">No excluded dates</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Next Jobs -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mt-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">📋 Scheduled Jobs</h3>
+                    <div id="scheduled-jobs" class="space-y-3">
+                        <div class="text-gray-500 text-sm">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Manual Control Tab -->
+        <section id="tab-manual" class="tab-content hidden fade-in">
+            <div class="bg-yellow-900/30 border border-yellow-700 rounded-xl p-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">⚠️</span>
+                    <div>
+                        <div class="font-semibold text-yellow-400">Manual Override Mode</div>
+                        <div class="text-sm text-yellow-200/70">Use with caution. Actions will be logged.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Quick Actions -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">🚀 Quick Actions</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="turnOnAll()" class="bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl text-lg font-semibold transition-colors flex items-center justify-center gap-2">
+                            🟢 TURN ON ALL
+                        </button>
+                        <button onclick="turnOffAll()" class="bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl text-lg font-semibold transition-colors flex items-center justify-center gap-2">
+                            🔴 TURN OFF ALL
+                        </button>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="text-sm font-medium text-gray-400 mb-3">By Group</h4>
+                        <div class="space-y-2" id="group-controls">
+                            <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                                <span>Projectors</span>
+                                <div class="flex gap-2">
+                                    <button onclick="turnOnGroup('projectors')" class="px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm">ON</button>
+                                    <button onclick="turnOffGroup('projectors')" class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">OFF</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                                <span>Expositions</span>
+                                <div class="flex gap-2">
+                                    <button onclick="turnOnGroup('expositions')" class="px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm">ON</button>
+                                    <button onclick="turnOffGroup('expositions')" class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">OFF</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Selective Control -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">🎯 Selective Control</h3>
+                    <div class="flex gap-2 mb-4">
+                        <button onclick="selectAllDevices()" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">Select All</button>
+                        <button onclick="deselectAllDevices()" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm">Deselect All</button>
+                    </div>
+                    <div id="manual-device-list" class="max-h-64 overflow-y-auto space-y-2 mb-4">
+                        <div class="text-gray-500 text-sm">Loading devices...</div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="turnOnSelected()" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium transition-colors">
+                            🟢 ON Selected
+                        </button>
+                        <button onclick="turnOffSelected()" class="bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-medium transition-colors">
+                            🔴 OFF Selected
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Real-time Feedback -->
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mt-6">
+                <h3 class="text-lg font-semibold text-white mb-4">📡 Real-time Feedback</h3>
+                <div id="action-log" class="font-mono text-sm bg-gray-950 rounded-lg p-4 h-48 overflow-y-auto">
+                    <div class="text-gray-500">Waiting for actions...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Tab -->
+        <section id="tab-settings" class="tab-content hidden fade-in">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">🔄 Retry Policy</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Max Attempts</label>
+                            <input type="number" id="setting-max-attempts" value="3" min="1" max="10"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Base Interval (seconds)</label>
+                            <input type="number" id="setting-base-interval" value="30" min="5" max="300"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Backoff Multiplier</label>
+                            <input type="number" id="setting-backoff" value="2.0" min="1" max="5" step="0.1"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">📊 Monitoring</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Status Check Interval (seconds)</label>
+                            <input type="number" id="setting-check-interval" value="300" min="60" max="3600"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Alert Threshold (%)</label>
+                            <input type="number" id="setting-alert-threshold" value="80" min="50" max="100"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">💾 Actions</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="saveSettings()" class="bg-ocean-600 hover:bg-ocean-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
+                            💾 Save Settings
+                        </button>
+                        <button onclick="reloadConfig()" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
+                            🔄 Reload Config
+                        </button>
+                        <button onclick="exportLogs()" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
+                            📥 Export Logs
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-white mb-4">ℹ️ System Info</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Version</span>
+                            <span>1.0.0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">API Endpoint</span>
+                            <span id="api-endpoint">http://localhost:8000</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Uptime</span>
+                            <span id="uptime">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Schedule Edit Modal -->
+    <div id="schedule-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
+        <div class="bg-gray-900 border border-gray-700 rounded-xl p-6 w-full max-w-md mx-4">
+            <h3 id="schedule-modal-title" class="text-lg font-semibold text-white mb-4">Edit Schedule</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Time</label>
+                    <input type="time" id="schedule-modal-time" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 focus:border-ocean-500 focus:outline-none">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button onclick="closeScheduleModal()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">Cancel</button>
+                <button onclick="saveSchedule()" class="px-4 py-2 bg-ocean-600 hover:bg-ocean-700 rounded-lg transition-colors">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+    <script>
+        // ===== Configuration =====
+        const API_BASE = window.location.origin;
+        let pollInterval = null;
+        let devices = [];
+        let currentLogPage = 1;
+        
+        // ===== Tab Navigation =====
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                
+                // Update buttons
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('active', 'text-ocean-400');
+                    b.classList.add('text-gray-400');
+                });
+                btn.classList.add('active');
+                btn.classList.remove('text-gray-400');
+                
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+                
+                // Load tab-specific data
+                if (tabId === 'devices') loadDevices();
+                if (tabId === 'logs') loadLogs();
+                if (tabId === 'schedule') loadSchedule();
+            });
+        });
+        
+        // ===== Toast Notifications =====
+        function showToast(message, type = 'info') {
+            const colors = {
+                success: 'bg-green-600',
+                error: 'bg-red-600',
+                warning: 'bg-yellow-600',
+                info: 'bg-ocean-600'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `${colors[type]} text-white px-4 py-3 rounded-lg shadow-lg fade-in flex items-center gap-2`;
+            toast.innerHTML = `<span>${message}</span>`;
+            
+            document.getElementById('toast-container').appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 4000);
+        }
+        
+        // ===== API Helpers =====
+        async function apiGet(endpoint) {
+            try {
+                const res = await fetch(`${API_BASE}${endpoint}`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return await res.json();
+            } catch (e) {
+                console.error(`API GET ${endpoint}:`, e);
+                return null;
+            }
+        }
+        
+        async function apiPost(endpoint, data = {}) {
+            try {
+                const res = await fetch(`${API_BASE}${endpoint}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return await res.json();
+            } catch (e) {
+                console.error(`API POST ${endpoint}:`, e);
+                showToast(`Error: ${e.message}`, 'error');
+                return null;
+            }
+        }
+        
+        // ===== Dashboard =====
+        async function loadDashboard() {
+            // Update timestamp
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString('ru-RU');
+            
+            // Load stats
+            const health = await apiGet('/api/health');
+            if (health) {
+                document.getElementById('stat-online').textContent = health.devices_online || '--';
+                document.getElementById('stat-total').textContent = health.devices_total || '--';
+                document.getElementById('stat-rate').textContent = health.success_rate ? 
+                    `${(health.success_rate * 100).toFixed(1)}%` : '--%';
+            }
+            
+            // Load schedule info
+            const schedule = await apiGet('/api/schedule');
+            if (schedule) {
+                document.getElementById('stat-last-action').textContent = schedule.last_execution || '--:--';
+                document.getElementById('stat-last-action-type').textContent = schedule.last_action || '--';
+                document.getElementById('stat-next-action').textContent = schedule.next_execution || '--:--';
+                document.getElementById('stat-next-action-type').textContent = schedule.next_action || '--';
+            }
+            
+            // Load alerts
+            const alerts = await apiGet('/api/alerts?hours=24');
+            const alertsList = document.getElementById('alerts-list');
+            if (alerts && alerts.length > 0) {
+                alertsList.innerHTML = alerts.slice(0, 5).map(a => `
+                    <div class="flex items-start gap-3 p-3 rounded-lg ${a.level === 'CRITICAL' ? 'bg-red-900/30' : 'bg-gray-800'}">
+                        <span>${a.level === 'CRITICAL' ? '🔴' : a.level === 'WARNING' ? '⚠️' : 'ℹ️'}</span>
+                        <div>
+                            <div class="text-sm">${a.message}</div>
+                            <div class="text-xs text-gray-500">${new Date(a.timestamp).toLocaleString('ru-RU')}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                alertsList.innerHTML = '<div class="flex items-center gap-2 text-green-400"><span>✅</span> All systems operating normally</div>';
+            }
+            
+            // Load group stats
+            const groups = await apiGet('/api/groups/status');
+            const groupsStatus = document.getElementById('groups-status');
+            if (groups && groups.length > 0) {
+                groupsStatus.innerHTML = groups.map(g => {
+                    const pct = g.total > 0 ? (g.online / g.total * 100).toFixed(0) : 0;
+                    return `
+                        <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                            <span class="font-medium">${g.name}</span>
+                            <div class="flex items-center gap-3">
+                                <div class="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-full ${pct >= 80 ? 'bg-green-500' : pct >= 50 ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${pct}%"></div>
+                                </div>
+                                <span class="text-sm text-gray-400">${g.online}/${g.total}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+        
+        // ===== Devices =====
+        async function loadDevices() {
+            const data = await apiGet('/api/devices');
+            if (!data) return;
+            
+            devices = data;
+            renderDevices();
+            updateManualDeviceList();
+            updateLogDeviceFilter();
+        }
+        
+        function renderDevices() {
+            const search = document.getElementById('device-search').value.toLowerCase();
+            const groupFilter = document.getElementById('device-group-filter').value;
+            const statusFilter = document.getElementById('device-status-filter').value;
+            
+            let filtered = devices.filter(d => {
+                if (search && !d.id.toLowerCase().includes(search) && !d.name.toLowerCase().includes(search)) return false;
+                if (groupFilter && d.group !== groupFilter) return false;
+                if (statusFilter === 'online' && d.status !== 'online') return false;
+                if (statusFilter === 'offline' && d.status !== 'offline') return false;
+                return true;
+            });
+            
+            const container = document.getElementById('devices-list');
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">No devices found</div>';
+                return;
+            }
+            
+            container.innerHTML = filtered.map(d => {
+                const statusColor = d.status === 'online' ? 'bg-green-900 text-green-200' : 
+                                    d.status === 'offline' ? 'bg-red-900 text-red-200' : 'bg-gray-700 text-gray-300';
+                const statusEmoji = d.status === 'online' ? '🟢' : d.status === 'offline' ? '🔴' : '🟡';
+                
+                return `
+                    <div class="bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-700 transition-colors">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-semibold text-white">${d.name || d.id}</h3>
+                                <p class="text-sm text-gray-500">${d.ip}:${d.port || '--'}</p>
+                            </div>
+                            <span class="px-2 py-1 rounded-full text-xs font-medium ${statusColor}">
+                                ${statusEmoji} ${d.status || 'unknown'}
+                            </span>
+                        </div>
+                        <div class="text-xs text-gray-500 mb-3">
+                            Type: ${d.type} | Group: ${d.group}
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="turnOnDevice('${d.id}')" 
+                                class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm font-medium transition-colors">
+                                🟢 ON
+                            </button>
+                            <button onclick="turnOffDevice('${d.id}')" 
+                                class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm font-medium transition-colors">
+                                🔴 OFF
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Device search filter
+        document.getElementById('device-search').addEventListener('input', renderDevices);
+        document.getElementById('device-group-filter').addEventListener('change', renderDevices);
+        document.getElementById('device-status-filter').addEventListener('change', renderDevices);
+        
+        // ===== Device Actions =====
+        async function turnOnDevice(id) {
+            showToast(`Turning on ${id}...`, 'info');
+            const result = await apiPost(`/api/devices/${id}/on`);
+            if (result && result.success) {
+                showToast(`${id} turned on successfully`, 'success');
+            } else {
+                showToast(`Failed to turn on ${id}`, 'error');
+            }
+            loadDevices();
+        }
+        
+        async function turnOffDevice(id) {
+            showToast(`Turning off ${id}...`, 'info');
+            const result = await apiPost(`/api/devices/${id}/off`);
+            if (result && result.success) {
+                showToast(`${id} turned off successfully`, 'success');
+            } else {
+                showToast(`Failed to turn off ${id}`, 'error');
+            }
+            loadDevices();
+        }
+        
+        async function turnOnAll() {
+            if (!confirm('Turn ON all devices?')) return;
+            showToast('Turning on all devices...', 'info');
+            addActionLog('⏳ Starting TURN ON ALL...');
+            const result = await apiPost('/api/devices/all/on');
+            if (result) {
+                showToast(`Turned on: ${result.successful}/${result.total}`, result.failed > 0 ? 'warning' : 'success');
+                addActionLog(`✅ Complete: ${result.successful}/${result.total} devices`);
+            }
+            loadDevices();
+        }
+        
+        async function turnOffAll() {
+            if (!confirm('Turn OFF all devices?')) return;
+            showToast('Turning off all devices...', 'info');
+            addActionLog('⏳ Starting TURN OFF ALL...');
+            const result = await apiPost('/api/devices/all/off');
+            if (result) {
+                showToast(`Turned off: ${result.successful}/${result.total}`, result.failed > 0 ? 'warning' : 'success');
+                addActionLog(`✅ Complete: ${result.successful}/${result.total} devices`);
+            }
+            loadDevices();
+        }
+        
+        async function turnOnGroup(group) {
+            showToast(`Turning on ${group}...`, 'info');
+            const result = await apiPost(`/api/groups/${group}/on`);
+            if (result) showToast(`${group}: ${result.successful}/${result.total} on`, 'success');
+            loadDevices();
+        }
+        
+        async function turnOffGroup(group) {
+            showToast(`Turning off ${group}...`, 'info');
+            const result = await apiPost(`/api/groups/${group}/off`);
+            if (result) showToast(`${group}: ${result.successful}/${result.total} off`, 'success');
+            loadDevices();
+        }
+        
+        // ===== Manual Control =====
+        function updateManualDeviceList() {
+            const container = document.getElementById('manual-device-list');
+            container.innerHTML = devices.filter(d => d.type !== 'exposition_pc').map(d => `
+                <label class="flex items-center gap-3 p-2 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
+                    <input type="checkbox" class="device-checkbox w-4 h-4" value="${d.id}">
+                    <span class="flex-1">${d.name || d.id}</span>
+                    <span class="text-xs text-gray-500">${d.status || '--'}</span>
+                </label>
+            `).join('');
+        }
+        
+        function selectAllDevices() {
+            document.querySelectorAll('.device-checkbox').forEach(cb => cb.checked = true);
+        }
+        
+        function deselectAllDevices() {
+            document.querySelectorAll('.device-checkbox').forEach(cb => cb.checked = false);
+        }
+        
+        function getSelectedDevices() {
+            return Array.from(document.querySelectorAll('.device-checkbox:checked')).map(cb => cb.value);
+        }
+        
+        async function turnOnSelected() {
+            const selected = getSelectedDevices();
+            if (selected.length === 0) return showToast('No devices selected', 'warning');
+            
+            addActionLog(`⏳ Turning on ${selected.length} devices...`);
+            for (const id of selected) {
+                const result = await apiPost(`/api/devices/${id}/on`);
+                addActionLog(result?.success ? `✅ ${id} — Success` : `❌ ${id} — Failed`);
+            }
+            loadDevices();
+        }
+        
+        async function turnOffSelected() {
+            const selected = getSelectedDevices();
+            if (selected.length === 0) return showToast('No devices selected', 'warning');
+            
+            addActionLog(`⏳ Turning off ${selected.length} devices...`);
+            for (const id of selected) {
+                const result = await apiPost(`/api/devices/${id}/off`);
+                addActionLog(result?.success ? `✅ ${id} — Success` : `❌ ${id} — Failed`);
+            }
+            loadDevices();
+        }
+        
+        function addActionLog(message) {
+            const log = document.getElementById('action-log');
+            const time = new Date().toLocaleTimeString('ru-RU');
+            log.innerHTML += `<div>[${time}] ${message}</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        // ===== Logs =====
+        async function loadLogs() {
+            const date = document.getElementById('log-date').value || new Date().toISOString().split('T')[0];
+            const level = document.getElementById('log-level').value;
+            const device = document.getElementById('log-device').value;
+            
+            let url = `/api/logs?date=${date}&page=${currentLogPage}`;
+            if (level) url += `&level=${level}`;
+            if (device) url += `&device=${device}`;
+            
+            const data = await apiGet(url);
+            const tbody = document.getElementById('logs-table');
+            
+            if (!data || !data.logs || data.logs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500">No logs found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = data.logs.map(log => {
+                const statusClass = log.success ? 'text-green-400' : 'text-red-400';
+                const levelClass = log.level === 'ERROR' ? 'text-red-400' : 
+                                   log.level === 'WARNING' ? 'text-yellow-400' : 'text-gray-400';
+                return `
+                    <tr class="hover:bg-gray-800/50">
+                        <td class="px-4 py-3 whitespace-nowrap text-gray-400">${new Date(log.timestamp).toLocaleTimeString('ru-RU')}</td>
+                        <td class="px-4 py-3 whitespace-nowrap font-medium">${log.device_id || 'SYSTEM'}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">${log.action || '--'}</td>
+                        <td class="px-4 py-3 whitespace-nowrap ${statusClass}">${log.success ? '✅' : '❌'} ${log.status || '--'}</td>
+                        <td class="px-4 py-3 text-gray-400 truncate max-w-xs">${log.message || '--'}</td>
+                    </tr>
+                `;
+            }).join('');
+            
+            document.getElementById('logs-page').textContent = `Page ${currentLogPage}`;
+        }
+        
+        function updateLogDeviceFilter() {
+            const select = document.getElementById('log-device');
+            select.innerHTML = '<option value="">All Devices</option>' + 
+                devices.map(d => `<option value="${d.id}">${d.name || d.id}</option>`).join('');
+        }
+        
+        document.getElementById('logs-prev').addEventListener('click', () => {
+            if (currentLogPage > 1) { currentLogPage--; loadLogs(); }
+        });
+        document.getElementById('logs-next').addEventListener('click', () => {
+            currentLogPage++; loadLogs();
+        });
+        
+        // Set default date
+        document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
+        
+        // ===== Schedule =====
+        let scheduleEditType = 'on';
+        
+        async function loadSchedule() {
+            const data = await apiGet('/api/schedule');
+            if (data) {
+                document.getElementById('schedule-on-time').textContent = data.on_time || '09:00';
+                document.getElementById('schedule-off-time').textContent = data.off_time || '20:00';
+                document.getElementById('schedule-timezone').textContent = data.timezone || 'Asia/Vladivostok';
+                document.getElementById('schedule-days').textContent = data.days?.join(', ') || 'Every day';
+                
+                // Excluded dates
+                const excludedContainer = document.getElementById('excluded-dates');
+                if (data.exclude_dates && data.exclude_dates.length > 0) {
+                    excludedContainer.innerHTML = data.exclude_dates.map(d => `
+                        <span class="bg-gray-700 px-2 py-1 rounded text-sm flex items-center gap-1">
+                            ${d}
+                            <button onclick="removeExcludedDate('${d}')" class="text-red-400 hover:text-red-300">×</button>
+                        </span>
+                    `).join('');
+                } else {
+                    excludedContainer.innerHTML = '<span class="text-gray-500 text-sm">No excluded dates</span>';
+                }
+            }
+            
+            // Load scheduled jobs
+            const jobs = await apiGet('/api/schedule/jobs');
+            const jobsContainer = document.getElementById('scheduled-jobs');
+            if (jobs && jobs.length > 0) {
+                jobsContainer.innerHTML = jobs.map(j => `
+                    <div class="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                        <div>
+                            <div class="font-medium">${j.name || j.id}</div>
+                            <div class="text-sm text-gray-500">Next: ${j.next_run ? new Date(j.next_run).toLocaleString('ru-RU') : '--'}</div>
+                        </div>
+                        <button onclick="triggerJob('${j.id}')" class="text-ocean-400 hover:text-ocean-300 text-sm">▶️ Run Now</button>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function openScheduleModal(type) {
+            scheduleEditType = type;
+            document.getElementById('schedule-modal-title').textContent = `Edit Turn ${type.toUpperCase()} Time`;
+            document.getElementById('schedule-modal-time').value = 
+                document.getElementById(`schedule-${type}-time`).textContent;
+            document.getElementById('schedule-modal').classList.remove('hidden');
+            document.getElementById('schedule-modal').classList.add('flex');
+        }
+        
+        function closeScheduleModal() {
+            document.getElementById('schedule-modal').classList.add('hidden');
+            document.getElementById('schedule-modal').classList.remove('flex');
+        }
+        
+        async function saveSchedule() {
+            const time = document.getElementById('schedule-modal-time').value;
+            const data = scheduleEditType === 'on' ? {on_time: time} : {off_time: time};
+            
+            const result = await apiPost('/api/schedule', data);
+            if (result) {
+                showToast('Schedule updated', 'success');
+                closeScheduleModal();
+                loadSchedule();
+            }
+        }
+        
+        async function triggerJob(jobId) {
+            const result = await apiPost(`/api/schedule/jobs/${jobId}/trigger`);
+            if (result) showToast('Job triggered', 'success');
+        }
+        
+        // ===== Settings =====
+        async function saveSettings() {
+            const settings = {
+                retry_policy: {
+                    max_attempts: parseInt(document.getElementById('setting-max-attempts').value),
+                    base_interval_sec: parseInt(document.getElementById('setting-base-interval').value),
+                    backoff_multiplier: parseFloat(document.getElementById('setting-backoff').value)
+                },
+                monitoring: {
+                    status_check_interval_sec: parseInt(document.getElementById('setting-check-interval').value),
+                    alert_threshold: parseInt(document.getElementById('setting-alert-threshold').value) / 100
+                }
+            };
+            
+            const result = await apiPost('/api/settings', settings);
+            if (result) showToast('Settings saved', 'success');
+        }
+        
+        async function reloadConfig() {
+            const result = await apiPost('/api/config/reload');
+            if (result) showToast('Config reloaded', 'success');
+        }
+        
+        function exportLogs() {
+            window.open(`${API_BASE}/api/logs/export`, '_blank');
+        }
+        
+        // ===== Polling =====
+        function startPolling() {
+            loadDashboard();
+            pollInterval = setInterval(loadDashboard, 5000);
+        }
+        
+        function stopPolling() {
+            if (pollInterval) clearInterval(pollInterval);
+        }
+        
+        // ===== Init =====
+        document.addEventListener('DOMContentLoaded', () => {
+            startPolling();
+            loadDevices();
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', stopPolling);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeScheduleModal();
+        });
+    </script>
+</body>
+</html>

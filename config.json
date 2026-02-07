@@ -1,0 +1,435 @@
+{
+  "app": {
+    "name": "Ocean Aquarium Control System",
+    "version": "1.0.0",
+    "debug": false,
+    "host": "0.0.0.0",
+    "port": 8000,
+    "timezone": "Asia/Vladivostok"
+  },
+  
+  "schedule": {
+    "on_time": "09:00",
+    "off_time": "20:00",
+    "timezone": "Asia/Vladivostok",
+    "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "exclude_dates": []
+  },
+  
+  "retry_policy": {
+    "max_attempts": 3,
+    "base_interval_sec": 30,
+    "backoff_multiplier": 2.0
+  },
+  
+  "monitoring": {
+    "status_check_interval_sec": 300,
+    "alert_threshold": 0.8
+  },
+  
+  "zabbix": {
+    "enabled": false,
+    "url": "http://192.168.2.240/api_jsonrpc.php",
+    "api_token": "",
+    "username": "",
+    "password": ""
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "file_level": "DEBUG",
+    "log_dir": "logs",
+    "actions_file": "actions.jsonl"
+  },
+  
+  "groups": [
+    {
+      "id": "projectors_optoma",
+      "name": "Optoma Projectors",
+      "description": "Optoma projectors (Telnet control)",
+      "order": 1
+    },
+    {
+      "id": "projectors_barco",
+      "name": "Barco Projectors", 
+      "description": "Barco projectors (JSON-RPC control)",
+      "order": 2
+    },
+    {
+      "id": "cubes",
+      "name": "Cubes",
+      "description": "LED Cubes (Custom protocol)",
+      "order": 3
+    },
+    {
+      "id": "expositions",
+      "name": "Exposition PCs",
+      "description": "Exposition computers (monitoring only)",
+      "order": 4
+    }
+  ],
+  
+  "devices": [
+    {
+      "id": "optoma_2.64",
+      "name": "Optoma 2.64",
+      "ip": "192.168.2.64",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true,
+      "zabbix_host": "Ekran_T1-M01_3"
+    },
+    {
+      "id": "optoma_2.62",
+      "name": "Optoma 2.62",
+      "ip": "192.168.2.62",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.63",
+      "name": "Optoma 2.63",
+      "ip": "192.168.2.63",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.65",
+      "name": "Optoma 2.65",
+      "ip": "192.168.2.65",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.66",
+      "name": "Optoma 2.66",
+      "ip": "192.168.2.66",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.67",
+      "name": "Optoma 2.67",
+      "ip": "192.168.2.67",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.68",
+      "name": "Optoma 2.68",
+      "ip": "192.168.2.68",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.69",
+      "name": "Optoma 2.69",
+      "ip": "192.168.2.69",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.70",
+      "name": "Optoma 2.70",
+      "ip": "192.168.2.70",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.71",
+      "name": "Optoma 2.71",
+      "ip": "192.168.2.71",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.72",
+      "name": "Optoma 2.72",
+      "ip": "192.168.2.72",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.73",
+      "name": "Optoma 2.73",
+      "ip": "192.168.2.73",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.74",
+      "name": "Optoma 2.74",
+      "ip": "192.168.2.74",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.75",
+      "name": "Optoma 2.75",
+      "ip": "192.168.2.75",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.76",
+      "name": "Optoma 2.76",
+      "ip": "192.168.2.76",
+      "port": 23,
+      "device_type": "optoma_telnet",
+      "group_id": "projectors_optoma",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.95",
+      "name": "Barco 1.95",
+      "ip": "192.168.1.95",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.96",
+      "name": "Barco 1.96",
+      "ip": "192.168.1.96",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.97",
+      "name": "Barco 1.97",
+      "ip": "192.168.1.97",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.98",
+      "name": "Barco 1.98",
+      "ip": "192.168.1.98",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.99",
+      "name": "Barco 1.99",
+      "ip": "192.168.1.99",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.100",
+      "name": "Barco 1.100",
+      "ip": "192.168.1.100",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.101",
+      "name": "Barco 1.101",
+      "ip": "192.168.1.101",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.102",
+      "name": "Barco 1.102",
+      "ip": "192.168.1.102",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.103",
+      "name": "Barco 1.103",
+      "ip": "192.168.1.103",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "barco_1.104",
+      "name": "Barco 1.104",
+      "ip": "192.168.1.104",
+      "port": 9090,
+      "device_type": "barco_jsonrpc",
+      "group_id": "projectors_barco",
+      "enabled": true
+    },
+    {
+      "id": "cube_3.10",
+      "name": "Cube 3.10",
+      "ip": "192.168.3.10",
+      "port": 5000,
+      "device_type": "cubes_custom",
+      "group_id": "cubes",
+      "enabled": true
+    },
+    {
+      "id": "cube_3.11",
+      "name": "Cube 3.11",
+      "ip": "192.168.3.11",
+      "port": 5000,
+      "device_type": "cubes_custom",
+      "group_id": "cubes",
+      "enabled": true
+    },
+    {
+      "id": "cube_3.12",
+      "name": "Cube 3.12",
+      "ip": "192.168.3.12",
+      "port": 5000,
+      "device_type": "cubes_custom",
+      "group_id": "cubes",
+      "enabled": true
+    },
+    {
+      "id": "cube_3.13",
+      "name": "Cube 3.13",
+      "ip": "192.168.3.13",
+      "port": 5000,
+      "device_type": "cubes_custom",
+      "group_id": "cubes",
+      "enabled": true
+    },
+    {
+      "id": "cube_3.14",
+      "name": "Cube 3.14",
+      "ip": "192.168.3.14",
+      "port": 5000,
+      "device_type": "cubes_custom",
+      "group_id": "cubes",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.50",
+      "name": "Expo PC 4.50",
+      "ip": "192.168.4.50",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.51",
+      "name": "Expo PC 4.51",
+      "ip": "192.168.4.51",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.52",
+      "name": "Expo PC 4.52",
+      "ip": "192.168.4.52",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.53",
+      "name": "Expo PC 4.53",
+      "ip": "192.168.4.53",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.54",
+      "name": "Expo PC 4.54",
+      "ip": "192.168.4.54",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.55",
+      "name": "Expo PC 4.55",
+      "ip": "192.168.4.55",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.56",
+      "name": "Expo PC 4.56",
+      "ip": "192.168.4.56",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.57",
+      "name": "Expo PC 4.57",
+      "ip": "192.168.4.57",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.58",
+      "name": "Expo PC 4.58",
+      "ip": "192.168.4.58",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    },
+    {
+      "id": "expo_pc_4.59",
+      "name": "Expo PC 4.59",
+      "ip": "192.168.4.59",
+      "port": null,
+      "device_type": "exposition_pc",
+      "group_id": "expositions",
+      "enabled": true
+    }
+  ]
+}

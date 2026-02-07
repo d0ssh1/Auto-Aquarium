@@ -1,0 +1,539 @@
+{
+  "schedule": {
+    "on_time": "09:00",
+    "off_time": "20:00",
+    "timezone": "Asia/Vladivostok",
+    "enabled": true
+  },
+  
+  "retry": {
+    "max_attempts": 3,
+    "interval_seconds": 30,
+    "timeout_seconds": 10
+  },
+  
+  "groups": [
+    {
+      "id": "expositions",
+      "name": "Экспозиции",
+      "priority": 1,
+      "parallel": true
+    },
+    {
+      "id": "projectors",
+      "name": "Проекторы",
+      "priority": 2,
+      "parallel": true
+    }
+  ],
+  
+  "devices": [
+    {
+      "id": "optoma_2.64",
+      "name": "Optoma 2.64",
+      "group": "projectors",
+      "type": "optoma_telnet",
+      "ip": "192.168.2.64",
+      "port": 23,
+      "enabled": true
+    },
+    {
+      "id": "optoma_2.62",
+      "name": "Optoma 2.62",
+      "group": "projectors",
+      "type": "optoma_telnet",
+      "ip": "192.168.2.62",
+      "port": 23,
+      "enabled": true
+    },
+    {
+      "id": "optoma_48",
+      "name": "Optoma 48",
+      "group": "projectors",
+      "type": "optoma_telnet",
+      "ip": "192.168.2.48",
+      "port": 23,
+      "enabled": true
+    },
+    {
+      "id": "optoma_47",
+      "name": "Optoma 47",
+      "group": "projectors",
+      "type": "optoma_telnet",
+      "ip": "192.168.2.47",
+      "port": 23,
+      "enabled": true
+    },
+    {
+      "id": "optoma_51",
+      "name": "Optoma 51",
+      "group": "projectors",
+      "type": "optoma_telnet",
+      "ip": "192.168.2.51",
+      "port": 23,
+      "enabled": true
+    },
+    {
+      "id": "optoma_74",
+      "name": "Optoma 74",
+      "group": "projectors",
+      "type": "optoma_telnet",
+      "ip": "192.168.2.74",
+      "port": 23,
+      "enabled": true
+    },
+    {
+      "id": "barco_95",
+      "name": "Barco 95",
+      "group": "projectors",
+      "type": "barco_jsonrpc",
+      "ip": "192.168.2.95",
+      "port": 9090,
+      "enabled": true
+    },
+    {
+      "id": "barco_96",
+      "name": "Barco 96",
+      "group": "projectors",
+      "type": "barco_jsonrpc",
+      "ip": "192.168.2.96",
+      "port": 9090,
+      "enabled": true
+    },
+    {
+      "id": "barco_97",
+      "name": "Barco 97",
+      "group": "projectors",
+      "type": "barco_jsonrpc",
+      "ip": "192.168.2.97",
+      "port": 9090,
+      "enabled": true
+    },
+    {
+      "id": "barco_99",
+      "name": "Barco 99",
+      "group": "projectors",
+      "type": "barco_jsonrpc",
+      "ip": "192.168.2.99",
+      "port": 9090,
+      "enabled": true
+    },
+    {
+      "id": "barco_64",
+      "name": "Barco 64",
+      "group": "projectors",
+      "type": "barco_jsonrpc",
+      "ip": "192.168.2.64",
+      "port": 9090,
+      "enabled": true
+    },
+    {
+      "id": "cubes",
+      "name": "Cubes Video Wall",
+      "group": "projectors",
+      "type": "cubes_custom",
+      "ip": "192.168.8.25",
+      "port": 7992,
+      "enabled": true
+    },
+    {
+      "id": "a0-av01-01",
+      "name": "A0-AV01-01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.1",
+      "mac": "F0-92-1C-E4-D1-75",
+      "enabled": true
+    },
+    {
+      "id": "a0-av01-02",
+      "name": "A0-AV01-02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.2",
+      "mac": "F0-92-1C-DE-21-61",
+      "enabled": true
+    },
+    {
+      "id": "a0-av01-03",
+      "name": "A0-AV01-03",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.3",
+      "mac": "F0-92-1C-E4-D1-8A",
+      "enabled": true
+    },
+    {
+      "id": "a0-av02",
+      "name": "A0-AV02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.4",
+      "mac": "D8-9D-67-F4-33-15",
+      "enabled": true
+    },
+    {
+      "id": "b1-av02",
+      "name": "B1-AV02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.5",
+      "mac": "F0-92-1C-E4-D2-9F",
+      "enabled": true
+    },
+    {
+      "id": "b1-av01",
+      "name": "B1-AV01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.6",
+      "mac": "F0-92-1C-E4-D2-A3",
+      "enabled": true
+    },
+    {
+      "id": "b1-in01",
+      "name": "B1-IN01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.7",
+      "mac": "A0-48-1C-79-F6-73",
+      "enabled": true
+    },
+    {
+      "id": "b2-av01",
+      "name": "B2-AV01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.8",
+      "mac": "A0-48-1C-79-F9-12",
+      "enabled": true
+    },
+    {
+      "id": "b2-av03",
+      "name": "B2-AV03",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.9",
+      "mac": "F0-92-1C-DE-21-5A",
+      "enabled": true
+    },
+    {
+      "id": "b1-av06",
+      "name": "B1-AV06",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.11",
+      "mac": "D8-9D-67-F4-22-63",
+      "enabled": true
+    },
+    {
+      "id": "b2-av06",
+      "name": "B2-AV06",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.12",
+      "mac": "F0-92-1C-E4-D2-99",
+      "enabled": true
+    },
+    {
+      "id": "b2-me01-01",
+      "name": "B2-ME01-01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.42",
+      "mac": "D8-9D-67-F4-13-CF",
+      "enabled": true
+    },
+    {
+      "id": "b2-me01-02",
+      "name": "B2-ME01-02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.43",
+      "mac": "D8-9D-67-F4-33-25",
+      "enabled": true
+    },
+    {
+      "id": "b2-me01-03",
+      "name": "B2-ME01-03",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.44",
+      "mac": "D8-9D-67-F4-33-27",
+      "enabled": true
+    },
+    {
+      "id": "b2-me01-04",
+      "name": "B2-ME01-04",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.1.45",
+      "mac": "D8-9D-67-F4-33-33",
+      "enabled": true
+    },
+    {
+      "id": "a1-av01-01",
+      "name": "A1-AV01-01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.3",
+      "mac": "D8-9D-67-F4-F2-57",
+      "enabled": true
+    },
+    {
+      "id": "a1-av01-02",
+      "name": "A1-AV01-02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.4",
+      "mac": "D8-9D-67-F4-33-3B",
+      "enabled": true
+    },
+    {
+      "id": "a1-av01-03",
+      "name": "A1-AV01-03",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.5",
+      "mac": "D8-9D-67-F4-33-37",
+      "enabled": true
+    },
+    {
+      "id": "a1-av01-04",
+      "name": "A1-AV01-04",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.6",
+      "mac": "D8-9D-67-F4-33-2B",
+      "enabled": true
+    },
+    {
+      "id": "a1-in02",
+      "name": "A1-IN02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.7",
+      "mac": "D8-9D-67-F4-33-09",
+      "enabled": true
+    },
+    {
+      "id": "a1-av02",
+      "name": "A1-AV02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.8",
+      "mac": "F0-92-1C-DE-22-D8",
+      "enabled": true
+    },
+    {
+      "id": "a1-in03",
+      "name": "A1-IN03",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.12",
+      "mac": "D8-9D-67-F4-33-2C",
+      "enabled": true
+    },
+    {
+      "id": "a1-in04",
+      "name": "A1-IN04",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.15",
+      "mac": "D8-9D-67-F4-23-7D",
+      "enabled": true
+    },
+    {
+      "id": "a1-av04",
+      "name": "A1-AV04",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.38",
+      "mac": "D8-9D-67-F4-33-39",
+      "enabled": true
+    },
+    {
+      "id": "a2-in01",
+      "name": "A2-IN01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.2.41",
+      "mac": "A0-48-1C-84-47-5B",
+      "enabled": true
+    },
+    {
+      "id": "b2-in02",
+      "name": "B2-IN02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.7",
+      "mac": "F0-92-1C-E4-D1-1D",
+      "enabled": true
+    },
+    {
+      "id": "b3-av02",
+      "name": "B3-AV02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.8",
+      "mac": "2C-44-FD-3A-CA-84",
+      "enabled": true
+    },
+    {
+      "id": "b4-av01",
+      "name": "B4-AV01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.9",
+      "mac": "D8-9D-67-F4-33-3F",
+      "enabled": true
+    },
+    {
+      "id": "b4-in01",
+      "name": "B4-IN01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.17",
+      "mac": "F0-92-1C-E4-D5-41",
+      "enabled": true
+    },
+    {
+      "id": "b4-me02-05",
+      "name": "B4-ME02-05",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.18",
+      "mac": "F0-92-1C-E4-D1-10",
+      "enabled": true
+    },
+    {
+      "id": "b4-av02",
+      "name": "B4-AV02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.19",
+      "mac": "F0-92-1C-DE-21-76",
+      "enabled": true
+    },
+    {
+      "id": "b4-in02-03",
+      "name": "B4-IN02-03",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.22",
+      "mac": "D8-9D-67-F4-33-0E",
+      "enabled": true
+    },
+    {
+      "id": "c1-in01",
+      "name": "C1-IN01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.24",
+      "mac": "F0-92-1C-E4-D2-93",
+      "enabled": true
+    },
+    {
+      "id": "c2-av02",
+      "name": "C2-AV02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.26",
+      "mac": "F0-92-1C-DE-22-82",
+      "enabled": true
+    },
+    {
+      "id": "c3-av01-01",
+      "name": "C3-AV01-01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.27",
+      "mac": "F0-92-1C-E4-D2-A0",
+      "enabled": true
+    },
+    {
+      "id": "c3-av01-02",
+      "name": "C3-AV01-02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.3.28",
+      "mac": "F0-92-1C-E4-D2-A6",
+      "enabled": true
+    },
+    {
+      "id": "c1-me03",
+      "name": "C1-ME03",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.4.2",
+      "mac": "F0-92-1C-DE-22-84",
+      "enabled": true
+    },
+    {
+      "id": "d1-av04",
+      "name": "D1-AV04",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.7.1",
+      "mac": "A0-48-1C-7E-97-E4",
+      "enabled": true
+    },
+    {
+      "id": "d2-av02",
+      "name": "D2-AV02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.7.10",
+      "mac": "F0-92-1C-DE-22-71",
+      "enabled": true
+    },
+    {
+      "id": "d2-av04",
+      "name": "D2-AV04",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.7.14",
+      "mac": "2C-44-FD-3A-CA-7F",
+      "enabled": true
+    },
+    {
+      "id": "d1-pol",
+      "name": "D1-POL",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.7.16",
+      "mac": "E0-3F-49-78-90-51",
+      "enabled": true
+    },
+    {
+      "id": "d1-art-01",
+      "name": "D1-ART-01",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.7.25",
+      "mac": "D8-9D-67-F4-33-47",
+      "enabled": true
+    },
+    {
+      "id": "d1-art-02",
+      "name": "D1-ART-02",
+      "group": "expositions",
+      "type": "exposition_pc",
+      "ip": "192.168.7.28",
+      "mac": "D8-9D-67-F4-33-13",
+      "enabled": true
+    }
+  ],
+  
+  "zabbix": {
+    "enabled": false,
+    "url": "http://192.168.2.240/api_jsonrpc.php",
+    "api_token": ""
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "json_file": "logs/actions.jsonl",
+    "retention_days": 30
+  }
+}
