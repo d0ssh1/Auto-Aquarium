@@ -1,53 +1,62 @@
 @echo off
 chcp 65001 >nul
-title Downloading Packages for Offline Installation
+title Installing Ocean Aquarium Control System
 
 echo.
 echo ╔══════════════════════════════════════════════════════════╗
 echo ║     🌊 OCEAN AQUARIUM EQUIPMENT CONTROL SYSTEM 🌊        ║
-echo ║         DOWNLOAD PACKAGES FOR OFFLINE INSTALL            ║
+echo ║              ONLINE INSTALLATION                          ║
 echo ╠══════════════════════════════════════════════════════════╣
-echo ║  This script will download all packages as .whl files    ║
-echo ║  to the 'packages' folder for offline installation.      ║
-echo ║                                                           ║
-echo ║  Run this on a computer with internet access!            ║
+echo ║  This script will:                                        ║
+echo ║  1. Create virtual environment (venv)                    ║
+echo ║  2. Install all dependencies from PyPI                   ║
 echo ╚══════════════════════════════════════════════════════════╝
 echo.
 
-cd /d "%~dp0"
+REM Go to project root (parent of scripts folder)
+cd /d "%~dp0.."
 
 REM Check Python
+echo [1/4] Checking Python installation...
 python --version >nul 2>&1
 if errorlevel 1 (
     echo ERROR: Python not found! Please install Python 3.10+
+    echo Download from: https://www.python.org/downloads/
     pause
     exit /b 1
 )
 
-REM Create packages folder
-if not exist "packages" mkdir packages
-
-echo.
-echo Downloading packages to 'packages' folder...
-echo This may take several minutes...
+python --version
 echo.
 
-REM Download all packages as wheel files
-pip download -r requirements.txt -d packages --only-binary=:all: --python-version 3.10 --platform win_amd64
-
-REM If binary not available, try without platform restriction
-if errorlevel 1 (
-    echo.
-    echo Some packages need source download, retrying...
-    pip download -r requirements.txt -d packages
+REM Create venv
+echo [2/4] Creating virtual environment...
+if not exist "venv" (
+    python -m venv venv
+    echo Virtual environment created.
+) else (
+    echo Virtual environment already exists.
 )
+echo.
+
+REM Activate venv
+echo [3/4] Activating virtual environment...
+call venv\Scripts\activate.bat
+echo.
+
+REM Install dependencies
+echo [4/4] Installing dependencies...
+pip install --upgrade pip
+pip install -r requirements.txt
 
 echo.
 echo ══════════════════════════════════════════════════════════
-echo ✅ Packages downloaded to 'packages' folder!
+echo ✅ Installation complete!
 echo.
-echo Now copy the entire Ocean folder to the offline computer
-echo and run 'install_offline.bat' there.
+echo Next steps:
+echo   1. Edit config.json with your device IP addresses
+echo   2. Run scripts\start.bat to start the server
+echo   3. Open http://localhost:8000 in your browser
 echo ══════════════════════════════════════════════════════════
 echo.
 pause

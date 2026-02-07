@@ -10,7 +10,8 @@ echo ║  Starting server...                                       ║
 echo ╚══════════════════════════════════════════════════════════╝
 echo.
 
-cd /d "%~dp0"
+REM Go to project root (parent of scripts folder)
+cd /d "%~dp0.."
 
 REM Check if venv exists
 if exist "venv\Scripts\python.exe" (

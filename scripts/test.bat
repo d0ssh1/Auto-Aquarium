@@ -9,7 +9,8 @@ echo ║                    RUNNING TESTS                          ║
 echo ╚══════════════════════════════════════════════════════════╝
 echo.
 
-cd /d "%~dp0"
+REM Go to project root (parent of scripts folder)
+cd /d "%~dp0.."
 
 REM Activate venv if exists
 if exist "venv\Scripts\activate.bat" (

@@ -12,13 +12,14 @@ echo ║  No internet connection required!                         ║
 echo ╚══════════════════════════════════════════════════════════╝
 echo.
 
-cd /d "%~dp0"
+REM Go to project root (parent of scripts folder)
+cd /d "%~dp0.."
 
 REM Check if packages folder exists
 if not exist "packages" (
     echo ERROR: 'packages' folder not found!
     echo.
-    echo You need to run 'download_packages.bat' on a computer
+    echo You need to run 'scripts\download_packages.bat' on a computer
     echo with internet access first, then copy the entire
     echo Ocean folder to this computer.
     echo.
@@ -76,7 +77,7 @@ echo ✅ Offline installation complete!
 echo.
 echo Next steps:
 echo   1. Edit config.json with your device IP addresses
-echo   2. Run start.bat to start the server
+echo   2. Run scripts\start.bat to start the server
 echo   3. Open http://localhost:8000 in your browser
 echo ══════════════════════════════════════════════════════════
 echo.
